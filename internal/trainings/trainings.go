@@ -1,18 +1,20 @@
 package trainings
+
 import (
-	"github.com/Yandex-Practicum/tracker/internal/personaldata"
-	"time"
-	"strings"
 	"fmt"
-	"strconv"
-	sp "github.com/Yandex-Practicum/tracker/internal/spentenergy"
 	"log"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/Yandex-Practicum/tracker/internal/personaldata"
+	sp "github.com/Yandex-Practicum/tracker/internal/spentenergy"
 )
 
 type Training struct {
-	Steps int
+	Steps        int
 	TrainingType string
-	Duration time.Duration
+	Duration     time.Duration
 	personaldata.Personal
 }
 
@@ -53,30 +55,30 @@ func (t Training) ActionInfo() (string, error) {
 	var calories float64
 	var err error
 
-	switch(t.TrainingType){
-		case "Ходьба":
-			calories, err = sp.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
-			if err != nil {
-            	log.Println(err)
-            	return "", err
-        	}
-		case "Бег":
-			calories, err = sp.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
-			if err != nil {
-            	log.Println(err)
-            	return "", err
-        	}
-		default:
-			return "", fmt.Errorf("неизвестный тип тренировки: %s", t.TrainingType)
+	switch t.TrainingType {
+	case "Ходьба":
+		calories, err = sp.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+		if err != nil {
+			log.Println(err)
+			return "", err
+		}
+	case "Бег":
+		calories, err = sp.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+		if err != nil {
+			log.Println(err)
+			return "", err
+		}
+	default:
+		return "", fmt.Errorf("неизвестный тип тренировки: %s", t.TrainingType)
 	}
 
 	result := fmt.Sprintf(
-        "Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n",
-        t.TrainingType,
-        t.Duration.Hours(),
-        dist,
-        averageSpeed,
-        calories,
-    )
+		"Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n",
+		t.TrainingType,
+		t.Duration.Hours(),
+		dist,
+		averageSpeed,
+		calories,
+	)
 	return result, nil
 }

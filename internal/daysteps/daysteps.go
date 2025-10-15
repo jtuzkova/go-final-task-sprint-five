@@ -1,17 +1,18 @@
 package daysteps
 
 import (
+	"fmt"
+	"log"
+	"strconv"
+	"strings"
 	"time"
+
 	"github.com/Yandex-Practicum/tracker/internal/personaldata"
 	sp "github.com/Yandex-Practicum/tracker/internal/spentenergy"
-	"strings"
-	"fmt"
-	"strconv"
-	"log"
 )
 
 type DaySteps struct {
-	Steps int
+	Steps    int
 	Duration time.Duration
 	personaldata.Personal
 }
@@ -38,9 +39,9 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	}
 
 	if duration <= 0 {
-        return fmt.Errorf("duration cannot be zero")
-    } 
-	
+		return fmt.Errorf("duration cannot be zero")
+	}
+
 	ds.Duration = duration
 	return nil
 }
